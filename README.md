@@ -1,1 +1,1 @@
-# COMP1811_Scheme_Family-Tree-Project
+![Family Tree Project](title.svg)

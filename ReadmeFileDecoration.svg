@@ -1,0 +1,16 @@
+<svg width="100%" height="auto" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="black"/>
+
+  <!-- Title: Family Tree Project 2 (Scheme-λ) -->
+  <text x="50%" y="100" font-family="Arial" font-size="60" font-weight="bold" fill="#900c3f" text-anchor="middle">
+    Family Tree Project 2 (Scheme-<tspan fill="#82e0aa">λ</tspan>)
+  </text>
+
+  <!-- Names in #11536c -->
+  <text x="50%" y="180" font-family="Arial" font-size="40" font-weight="bold" fill="#11536c" text-anchor="middle">👤 Hugo Piper</text>
+  <text x="50%" y="230" font-family="Arial" font-size="40" font-weight="bold" fill="#11536c" text-anchor="middle">👤 Jahid Emon</text>
+
+  <!-- Start Date in #922b21 -->
+  <text x="50%" y="280" font-family="Arial" font-size="30" font-weight="bold" fill="#922b21" text-anchor="middle">📅 Start Date: 13-Feb-2025</text>
+</svg>
