@@ -12,7 +12,11 @@
 ((Ned Bloom) (() ()) ((23 04 2001)()))
 ((John Bloom) ((Greta Blake) (Ned Bloom)) ((5 12 2023) ()))))
 
-#| Requirements A-01 |#
+
+
+
+
+#| Requirements A-01 parents |#
 
 (define (parents Mb)                       ;Method that gets the members nestes list
 (define (remove-duplicates-identity lst)   ;Method to remove duplicate appearence from list
@@ -27,7 +31,8 @@
 (parents Mb)
 
 
-#| Requirements A-02 |#
+
+#| Requirements A-02 living-members |#
 
 (define (living-members livinglist)
 (filter (lambda (name) (not (eq? name #f))) ;filter removes #f and keeps #t (here name = element processed by mapfucn
@@ -39,3 +44,24 @@
                [else #f])) livinglist)))                    ;Here if death date empty means alive if not then dead and we remove dead
 
 (living-members Mb)
+
+
+
+#| Requirements A-03 Current-age |#
+
+(define (current-age age-list)                                           ;function that provides age of all member in a list
+(map (lambda (member)                                                  ;"map" applies "lambda to every element of the list
+       (let* ((DateOfBirth-DeathOFDeath (caddr member))                ;"let" allows us to create all the veriable which will holds the needed data
+              (DateOfBirth (car DateOfBirth-DeathOFDeath))             ;DOB holds [car DOB&DOD(1st element of caddr member)] ex= DOB date            
+              (DeathOFDeath (cadr DateOfBirth-DeathOFDeath))           ;DOD holds the Death date
+              (current-year 2025)                                      ;created current-year veriable to holds current year(if no DOD found)
+              (birth-year (if (pair? DateOfBirth) (caddr DateOfBirth) 0)) ;checks if DOB is a pair and if valid this is to avoid '() list problem
+              ;if DOB found pair then "caddrDOB" extracts the Birth year, if no then 0
+              ;"0" is used as a fallback if anyhow BOD is empty and to avoid errors
+              (death-year (if (null? DeathOFDeath) current-year        ;checks if DOD is empty then returns 2025 else, extract the DOD
+                              (caddr DeathOFDeath))))  
+         (list (car member) (- death-year birth-year))))               ;kepping the calculation of Age in a list
+     age-list))                                                        ;"map" applies this to every element of the list
+
+
+(current-age Mb)
