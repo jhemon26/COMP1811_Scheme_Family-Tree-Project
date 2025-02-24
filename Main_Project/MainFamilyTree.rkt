@@ -65,3 +65,51 @@
 
 
 (current-age Mb)
+
+
+#| Requirement B-01 children |#
+
+(define (children children-list)            ; Define a function 'children' that takes a family tree list as input.
+  (map car                                  ; Use 'map' to extract the child's name (first element) from each record.
+       (filter (lambda (record)             ; Use 'filter' to select records where the child has at least one parent.
+                 (let ((parents (cadr record))) ; Extract the parent list (second element) from the record.
+                   (or (not (null? (car parents)))    ; Check if the first parent's list is non-empty.
+                       (not (null? (cadr parents)))))) ; Check if the second parent's list is non-empty.
+               children-list)))              ; Apply this filtering to each record in the provided children-list.
+
+
+
+#| Requirement B-02 oldest-living-member |#
+
+(define (oldest-living-member family-branch)       ; Define function to find the oldest living member
+  (let* ((living (living-members family-branch))   ; Get list of all living members
+         (ages (current-age family-branch))        ; Get list of all members with their ages
+         (living-ages (filter (lambda (member)    ; Filter the age list to keep only living members
+                                (assoc (car member) (map (lambda (x) (list x)) living)))
+                              ages)))
+    (if (null? living-ages)                        ; Check if there are no living members
+        '()                                        ; Return empty list if no one is alive
+        (foldl (lambda (a b)                       ; Iterate through the list to find the max
+                 (if (> (cadr a) (cadr b)) a b))   ; Compare ages and keep the member with the highest age
+               (car living-ages)                   ; Start with the first member in the list
+               (cdr living-ages)))))               ; Process the rest of the list
+
+
+
+#| Requirement B-03  average-age-on-death |#
+
+(define (average-age-on-death family-branch)
+  (let* ((deceased (filter (lambda (member) 
+                             (not (null? (cadr (caddr member))))) ; Filter members with non-empty DOD
+                           family-branch))
+         (ages (map (lambda (m)
+                      (let* ((dob-dod (caddr m)) ; Extract DOB and DOD
+                             (dob (car dob-dod))
+                             (dod (cadr dob-dod))
+                             (birth-year (caddr dob)) ; Birth year from DOB
+                             (death-year (caddr dod))) ; Death year from DOD
+                        (- death-year birth-year))) ; Calculate age at death
+                    deceased)))
+    (if (null? ages)
+        0
+        (/ (apply + ages) (length ages)))))
