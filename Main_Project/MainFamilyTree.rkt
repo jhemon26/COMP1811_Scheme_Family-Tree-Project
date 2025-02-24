@@ -81,7 +81,7 @@
                    (if (null? DateOfBirth) #f                ; Ensure DOB is not empty else #f and removed by "filter"
                        (equal? (cadr DateOfBirth) month))))  ; Checks if month parameter = member DOB Months
                lst)))
-  (if (null? matches)                                        ; Checks if "matches" is null? else returns (car memebr and massage) 
+  (if (null? matches)                                        ; Checks if "matches" is null? else returns (car member and massage) 
       '()  
       (for-each (lambda (member) (display (car member)) (newline)) matches)))
 (display "No More Match Found"))
@@ -163,4 +163,3 @@
 
 
 
-      
