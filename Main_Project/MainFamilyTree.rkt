@@ -15,18 +15,22 @@
 
 
 
+                                           #| Features -> A |#
+
+
+
 
 #| Requirements A-01 parents |#
 
-(define (parents Mb)                       ;Method that gets the members nestes list
-(define (remove-duplicates-identity lst)   ;Method to remove duplicate appearence from list
-  (if (null? lst) '()                      ;BASEcASE->checks if the list is not null so proceed to Recursion
-     (cons (car lst)                       ;Extract the first element(Member), "cons" will construct newly non duplicate list.
-       (remove-duplicates-identity         ;Recursive call of RDI method
-        (filter (lambda (x) (not (equal? x (car lst)))) (cdr lst))))))  ;Comment Description below
-        ;Here the "filter" fucn gets "cdrlst" and apply "(not (equal? x (car lst)"
-        ;Here if memberCarlst = memberCdrlst then #t but the "not" func then change it to
-        ;#f and we discard the member through "filter"
+(define (parents Mb)                       ; Method that gets the members nestes list
+(define (remove-duplicates-identity lst)   ; Method to remove duplicate appearence from list
+  (if (null? lst) '()                      ; BASEcASE->checks if the list is not null so proceed to Recursion
+     (cons (car lst)                       ; Extract the first element(Member), "cons" will construct newly non duplicate list.
+       (remove-duplicates-identity         ; Recursive call of RDI method
+        (filter (lambda (x) (not (equal? x (car lst)))) (cdr lst))))))  ; Comment Description below
+        ; Here the "filter" fucn gets "cdrlst" and apply "(not (equal? x (car lst)"
+        ; Here if memberCarlst = memberCdrlst then #t but the "not" func then change it to
+        ; #f and we discard the member through "filter"
 (remove-duplicates-identity (apply append (map cadr Mb))))
 (parents Mb)
 
@@ -35,13 +39,13 @@
 #| Requirements A-02 living-members |#
 
 (define (living-members livinglist)
-(filter (lambda (name) (not (eq? name #f))) ;filter removes #f and keeps #t (here name = element processed by mapfucn
-                                            ;if map return a not empty value element(member) then filter removes that element 
-        (map (lambda (member)               ;map applies λ to all element of livinglist
+(filter (lambda (name) (not (eq? name #f))) ; filter removes #f and keeps #t (here name = element processed by mapfucn
+                                            ; if map return a not empty value element(member) then filter removes that element 
+        (map (lambda (member)               ; map applies λ to all element of livinglist
             (cond 
-               [(null? (cadr (caddr member))) (car member)] ;cond checks wheather the member(elmntOfLList) empty or not
-                                                            ;If empty then returns carmember(FirstElmntOfLList) 
-               [else #f])) livinglist)))                    ;Here if death date empty means alive if not then dead and we remove dead
+               [(null? (cadr (caddr member))) (car member)] ; cond checks wheather the member(elmntOfLList) empty or not
+                                                            ; If empty then returns carmember(FirstElmntOfLList) 
+               [else #f])) livinglist)))                    ; Here if death date empty means alive if not then dead and we remove dead
 
 (living-members Mb)
 
@@ -49,22 +53,51 @@
 
 #| Requirements A-03 Current-age |#
 
-(define (current-age age-list)                                           ;function that provides age of all member in a list
-(map (lambda (member)                                                  ;"map" applies "lambda to every element of the list
-       (let* ((DateOfBirth-DeathOFDeath (caddr member))                ;"let" allows us to create all the veriable which will holds the needed data
-              (DateOfBirth (car DateOfBirth-DeathOFDeath))             ;DOB holds [car DOB&DOD(1st element of caddr member)] ex= DOB date            
-              (DeathOFDeath (cadr DateOfBirth-DeathOFDeath))           ;DOD holds the Death date
-              (current-year 2025)                                      ;created current-year veriable to holds current year(if no DOD found)
-              (birth-year (if (pair? DateOfBirth) (caddr DateOfBirth) 0)) ;checks if DOB is a pair and if valid this is to avoid '() list problem
-              ;if DOB found pair then "caddrDOB" extracts the Birth year, if no then 0
-              ;"0" is used as a fallback if anyhow BOD is empty and to avoid errors
-              (death-year (if (null? DeathOFDeath) current-year        ;checks if DOD is empty then returns 2025 else, extract the DOD
+(define (current-age age-list)                                         ; function that provides age of all member in a list
+(map (lambda (member)                                                  ; "map" applies "lambda to every element of the list
+       (let* ((DateOfBirth-DeathOFDeath (caddr member))                ; "let" allows us to create all the veriable which will holds the needed data
+              (DateOfBirth (car DateOfBirth-DeathOFDeath))             ; DOB holds [car DOB&DOD(1st element of caddr member)] ex= DOB date            
+              (DeathOFDeath (cadr DateOfBirth-DeathOFDeath))           ; DOD holds the Death date
+              (current-year 2025)                                      ; created current-year veriable to holds current year(if no DOD found)
+              (birth-year (if (pair? DateOfBirth) (caddr DateOfBirth) 0)) ; checks if DOB is a pair and if valid this is to avoid '() list problem
+              ; if DOB found pair then "caddrDOB" extracts the Birth year, if no then 0
+              ; "0" is used as a fallback if anyhow BOD is empty and to avoid errors
+              (death-year (if (null? DeathOFDeath) current-year        ; checks if DOD is empty then returns 2025 else, extract the DOD
                               (caddr DeathOFDeath))))  
-         (list (car member) (- death-year birth-year))))               ;kepping the calculation of Age in a list
-     age-list))                                                        ;"map" applies this to every element of the list
+         (list (car member) (- death-year birth-year))))               ; kepping the calculation of Age in a list
+     age-list))                                                        ; "map" applies this to every element of the list
 
 
 (current-age Mb)
+
+
+
+#| Requirements A-04 same-birthday-month |#
+
+(define (same-birthday-month lst month)
+(let ((matches                                               ; Matches will hold element examined by "filter"
+       (filter (lambda (member)                              ;"filter" applies "lambda" to every member
+                 (let* ((DateOfBirth (car (caddr member))))  ; Extracts DOB 
+                   (if (null? DateOfBirth) #f                ; Ensure DOB is not empty else #f and removed by "filter"
+                       (equal? (cadr DateOfBirth) month))))  ; Checks if month parameter = member DOB Months
+               lst)))
+  (if (null? matches)                                        ; Checks if "matches" is null? else returns (car memebr and massage) 
+      '()  
+      (for-each (lambda (member) (display (car member)) (newline)) matches)))
+(display "No More Match Found"))
+
+(same-birthday-month Mb 5)(newline)
+
+
+
+
+
+
+
+
+
+                                      #| Features -> B |#
+
 
 
 #| Requirement B-01 children |#
@@ -113,3 +146,21 @@
     (if (null? ages)
         0
         (/ (apply + ages) (length ages)))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
