@@ -203,7 +203,7 @@
 ;Example usage:
 (newline)
 (displayln "Example of B-01 'children':")
-(children Mb)
+(children Pb)
 
 
 
@@ -225,7 +225,7 @@
 ;Example usage:
 (newline)
 (displayln "Example of B-02 'oldest-living-member':")
-(oldest-living-member Mb)
+(oldest-living-member Pb)
 
 
 
@@ -250,7 +250,7 @@
 ;example usage:
 (newline)
 (displayln "Example of B-03 'average-age-on-death':")
-(average-age-on-death Mb)
+(average-age-on-death Pb)
 
 
 #| Requirements B-04 same-birthday-month |#
@@ -275,7 +275,7 @@
 ;example usage:
 (newline)
 (displayln "Example of B-04 'same-birthday-month':")
-(same-birthday-month Mb 5)
+(same-birthday-month Pb 2)
 
 
 
@@ -291,7 +291,7 @@
 ;Examples usage:
 (newline)(newline)
 (displayln "Example of B-05 'sort-by-first':")
-(sort-by-first Mb)
+(sort-by-first Pb)
 
 
 
@@ -311,5 +311,5 @@
 ;Example usage:
 (newline)
 (displayln "Example of B-06 'change-name-to-Maria':")
-(change-name-to-Maria Mb)
+(change-name-to-Maria Pb)
 
