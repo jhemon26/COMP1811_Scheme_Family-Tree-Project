@@ -1,3 +1,5 @@
+#lang racket
+
 ;;Maternal branch
 (define Mb
 '(
@@ -135,7 +137,7 @@
   (if (null? matches)                                        ; Checks if "matches" is null? else returns (car member and massage) 
       '()  
       (for-each (lambda (member) (display (car member)) (newline)) matches)))
-(display "No More Matches Found"))
+(display "No More Match Found"))
 
 ;Example usage:
 (newline)
@@ -263,7 +265,7 @@
                           (equal? (cadr DateOfBirth) month)))) ; Compare month
                  lst)))
     (if (null? matches)
-        (display "No More Matches Found")
+        (display "No More Match Found")
         (for-each (lambda (member) 
                     (display (car member)) 
                     (newline)) 
