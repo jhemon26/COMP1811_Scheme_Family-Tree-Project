@@ -38,14 +38,14 @@
 
 #| Requirements A-02 living-members |#
 
-(define (living-members livinglist)
+(define (living-members lst)
 (filter (lambda (name) (not (eq? name #f))) ; filter removes #f and keeps #t (here name = element processed by mapfucn
                                             ; if map return a not empty value element(member) then filter removes that element 
         (map (lambda (member)               ; map applies λ to all element of livinglist
             (cond 
                [(null? (cadr (caddr member))) (car member)] ; cond checks wheather the member(elmntOfLList) empty or not
                                                             ; If empty then returns carmember(FirstElmntOfLList) 
-               [else #f])) livinglist)))                    ; Here if death date empty means alive if not then dead and we remove dead
+               [else #f])) lst)))                    ; Here if death date empty means alive if not then dead and we remove dead
 
 (living-members Mb)
 
@@ -53,7 +53,7 @@
 
 #| Requirements A-03 Current-age |#
 
-(define (current-age age-list)                                         ; function that provides age of all member in a list
+(define (current-age lst)                                         ; function that provides age of all member in a list
 (map (lambda (member)                                                  ; "map" applies "lambda to every element of the list
        (let* ((DateOfBirth-DeathOFDeath (caddr member))                ; "let" allows us to create all the veriable which will holds the needed data
               (DateOfBirth (car DateOfBirth-DeathOFDeath))             ; DOB holds [car DOB&DOD(1st element of caddr member)] ex= DOB date            
@@ -65,7 +65,7 @@
               (death-year (if (null? DeathOFDeath) current-year        ; checks if DOD is empty then returns 2025 else, extract the DOD
                               (caddr DeathOFDeath))))  
          (list (car member) (- death-year birth-year))))               ; kepping the calculation of Age in a list
-     age-list))                                                        ; "map" applies this to every element of the list
+     lst))                                                        ; "map" applies this to every element of the list
 
 
 (current-age Mb)
@@ -90,7 +90,19 @@
 
 
 
+#| Requirements A-05 sort-by-last |#
 
+(define (get-last-name full-name)              ; Helper fucn to get full name
+(cadr full-name))                              ; "cadr" extract full name
+(define (sort-by-last lst)                     ; Helper func the sort by Lname
+(map car (sort                                 ; map car extract the full name from "sort (sort transform into pairs Fname Lname)"
+          
+    (map (lambda (member)                      
+           (let ((name (car member)))          ; Gets the first name of from the "Mb" elemetns
+             (cons name (symbol->string (get-last-name name))))) ; Transform symbol into strings and "cons" create FnameLname pairs
+         lst)                                                    ;  -> (Mary Blake . "Blake")
+    (lambda (a b) (string<? (cdr a) (cdr b))))))                 ; Lambda compares last names
+(sort-by-last Mb)
 
 
 
