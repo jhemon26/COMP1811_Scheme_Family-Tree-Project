@@ -164,6 +164,24 @@
 
 
 
+#| Requirements A-06 change-name-to-Juan |#
+
+(define (change-name-to-Juan lst old-name new-name)
+(map (lambda (member)                            
+       (let* ((FullName (car member))            ; Gets the full name list
+              (FirstName (car FullName))         ; Gets first name Example -> 'Mary
+              (UpdatedName (if (equal? FirstName old-name) new-name FirstName))) ; Checks if Oldname=Firstname then replace Firstname to new-name
+         (cons (cons UpdatedName (cdr FullName)) ; Reconstructs UpdatedName with the (cdrFullname -> Lname) 
+               (cdr member))))                   ; Keep the rest of the member's name unchanged
+     lst))
+
+;Example usage:
+(newline)
+(displayln "Example of A-06 'change-name-to-juan':")    
+(change-name-to-Juan Mb 'John 'Juan)
+
+
+
 
 
                                       #| Features -> B |#
