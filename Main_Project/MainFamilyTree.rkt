@@ -245,7 +245,7 @@
                     deceased)))
     (if (null? ages)
         0
-        (/ (apply + ages) (length ages)))))
+        (/ (exact->inexact(apply + ages)) (exact->inexact(length ages))))))
 
 ;example usage:
 (newline)
