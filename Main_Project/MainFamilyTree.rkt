@@ -1,5 +1,3 @@
-#lang racket
-
 ;;Maternal branch
 (define Mb
 '(
@@ -32,26 +30,43 @@
     ((Tom Smith)   (()            ())            ((2 8 1897)   (26 11 1987)))
   ))
 
-;;define lst-mb
-;;define lst-pb
-;;define lst-all
+
 
 ;; C1
-(define (lst-mb mb)
-  mb)
- 
+(define (lst-mb)
+  Mb)
+
+;Example usage:
+(newline)
+(displayln "Feature C1:")
+(lst-mb)
+
+
+
 ;; C2 
-(define (lst-pb pb)
-  pb)
-  
+(define (lst-pb)
+  Pb)
+
+;Example usage:
+(newline)
+(displayln "Feature C2:")
+(lst-pb)
+
+
+
+
 ;; C3
 (define (append-lst list1 list2)
         (if (null? list1) list2
             (cons (car list1) (append-lst (cdr list1) list2))))
 			
-(define (lst-all mb pb)
-  (append-lst mb pb))
-(lst-all Mb Pb)
+(define (lst-all)
+  (append-lst Mb Pb))
+
+;Example usage:
+(newline)
+(displayln "Feature C3:")
+(lst-all)
 
 
 
@@ -137,7 +152,7 @@
   (if (null? matches)                                        ; Checks if "matches" is null? else returns (car member and massage) 
       '()  
       (for-each (lambda (member) (display (car member)) (newline)) matches)))
-(display "No More Match Found"))
+(display "No More Matches Found"))
 
 ;Example usage:
 (newline)
@@ -166,24 +181,6 @@
 
 
 
-#| Requirements A-06 change-name-to-Juan |#
-
-(define (change-name-to-Juan lst old-name new-name)
-(map (lambda (member)                            
-       (let* ((FullName (car member))            ; Gets the full name list
-              (FirstName (car FullName))         ; Gets first name Example -> 'Mary
-              (UpdatedName (if (equal? FirstName old-name) new-name FirstName))) ; Checks if Oldname=Firstname then replace Firstname to new-name
-         (cons (cons UpdatedName (cdr FullName)) ; Reconstructs UpdatedName with the (cdrFullname -> Lname) 
-               (cdr member))))                   ; Keep the rest of the member's name unchanged
-     lst))
-
-;Example usage:
-(newline)
-(displayln "Example of A-06 'change-name-to-juan':")    
-(change-name-to-Juan Mb 'John 'Juan)
-
-
-
 
 
                                       #| Features -> B |#
@@ -203,7 +200,7 @@
 ;Example usage:
 (newline)
 (displayln "Example of B-01 'children':")
-(children Pb)
+(children Mb)
 
 
 
@@ -225,7 +222,7 @@
 ;Example usage:
 (newline)
 (displayln "Example of B-02 'oldest-living-member':")
-(oldest-living-member Pb)
+(oldest-living-member Mb)
 
 
 
@@ -250,7 +247,7 @@
 ;example usage:
 (newline)
 (displayln "Example of B-03 'average-age-on-death':")
-(average-age-on-death Pb)
+(average-age-on-death Mb)
 
 
 #| Requirements B-04 same-birthday-month |#
@@ -265,7 +262,7 @@
                           (equal? (cadr DateOfBirth) month)))) ; Compare month
                  lst)))
     (if (null? matches)
-        (display "No More Match Found")
+        (display "No More Matches Found")
         (for-each (lambda (member) 
                     (display (car member)) 
                     (newline)) 
@@ -275,7 +272,7 @@
 ;example usage:
 (newline)
 (displayln "Example of B-04 'same-birthday-month':")
-(same-birthday-month Pb 2)
+(same-birthday-month Mb 5)
 
 
 
@@ -291,7 +288,7 @@
 ;Examples usage:
 (newline)(newline)
 (displayln "Example of B-05 'sort-by-first':")
-(sort-by-first Pb)
+(sort-by-first Mb)
 
 
 
@@ -311,5 +308,5 @@
 ;Example usage:
 (newline)
 (displayln "Example of B-06 'change-name-to-Maria':")
-(change-name-to-Maria Pb)
+(change-name-to-Maria Mb)
 
