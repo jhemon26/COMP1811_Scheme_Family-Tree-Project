@@ -181,6 +181,24 @@
 
 
 
+#| Requirements A-06 change-name-to-Juan |#
+ 
+ (define (change-name-to-Juan lst old-name new-name)
+ (map (lambda (member)                            
+        (let* ((FullName (car member))            ; Gets the full name list
+               (FirstName (car FullName))         ; Gets first name Example -> 'Mary
+               (UpdatedName (if (equal? FirstName old-name) new-name FirstName))) ; Checks if Oldname=Firstname then replace Firstname to new-name
+          (cons (cons UpdatedName (cdr FullName)) ; Reconstructs UpdatedName with the (cdrFullname -> Lname) 
+                (cdr member))))                   ; Keep the rest of the member's name unchanged
+      lst))
+ 
+ ;Example usage:
+ (newline)
+ (displayln "Example of A-06 'change-name-to-juan':")    
+ (change-name-to-Juan Mb 'John 'Juan)
+
+
+
 
 
                                       #| Features -> B |#
@@ -189,13 +207,18 @@
 
 #| Requirement B-01 children |#
 
-(define (children children-list)            ; Define a function 'children' that takes a family tree list as input.
-  (map car                                  ; Use 'map' to extract the child's name (first element) from each record.
-       (filter (lambda (record)             ; Use 'filter' to select records where the child has at least one parent.
-                 (let ((parents (cadr record))) ; Extract the parent list (second element) from the record.
-                   (or (not (null? (car parents)))    ; Check if the first parent's list is non-empty.
-                       (not (null? (cadr parents)))))) ; Check if the second parent's list is non-empty.
-               children-list)))              ; Apply this filtering to each record in the provided children-list.
+(define (children lst)
+  (cond
+    [(null? lst) '()] ; Base case: empty list
+    [else
+     (let* ([current (car lst)] ; Current member
+            [parents (cadr current)] ; Parent data
+            [has-parent? (or (not (null? (car parents))) ; Check if parent1 exists
+                             (not (null? (cadr parents))))]) ; Check if parent2 exists
+       (if has-parent?
+           (cons (car current) ; Include child's name
+                 (children (cdr lst))) ; Recurse on rest
+           (children (cdr lst))))])) ; Skip and recurse
 
 ;Example usage:
 (newline)
@@ -242,7 +265,7 @@
                     deceased)))
     (if (null? ages)
         0
-        (/ (exact->inexact(apply + ages)) (exact->inexact(length ages))))))
+        (/ (apply + ages) (length ages)))))
 
 ;example usage:
 (newline)
@@ -278,17 +301,31 @@
 
 #| Requirement B-05 sort-by-first |#
 
-(define (sort-by-first family-branch)
-  (sort family-branch                     ; Sort the list of family members
-        (lambda (a b)                     ; Custom comparator for two members
-          (string<? 
-           (symbol->string (car (car a)))   ; Convert the first name of member a to a string
-           (symbol->string (car (car b))))))) ; Convert the first name of member b to a string
+(define (sort-by-first-recursive lst)
+  (if (or (null? lst) (null? (cdr lst))) ; Base case: empty or single-element list
+      lst
+      (let* ([pivot (car lst)] ; Choose pivot
+             [rest (cdr lst)]
+             [pred (lambda (x) 
+                     (string<? (symbol->string (car (car x))) 
+                               (symbol->string (car (car pivot)))))])
+        (let-values ([(lesser greater) (partition pred rest)])
+          (append (sort-by-first-recursive lesser)
+                  (list pivot)
+                  (sort-by-first-recursive greater))))))
+
+(define (partition pred lst)
+  (if (null? lst)
+      (values '() '())
+      (let-values ([(lesser greater) (partition pred (cdr lst))])
+        (if (pred (car lst))
+            (values (cons (car lst) lesser) greater)
+            (values lesser (cons (car lst) greater))))))
 
 ;Examples usage:
 (newline)(newline)
 (displayln "Example of B-05 'sort-by-first':")
-(sort-by-first Mb)
+(sort-by-first-recursive Mb)
 
 
 
