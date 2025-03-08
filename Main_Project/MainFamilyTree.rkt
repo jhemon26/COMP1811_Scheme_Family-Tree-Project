@@ -1,3 +1,7 @@
+;;Paradigms of Programming CW2 Scheme Family Tree
+;;By Hugo Piper 001384370-2
+;;By Jahid Emon 001360753-7
+
 ;;Maternal branch
 (define Mb
 '(
