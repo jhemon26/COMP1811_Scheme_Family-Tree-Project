@@ -1,5 +1,5 @@
 ;;Paradigms of Programming CW2 Scheme Family Tree
-;;By Hugo Piper 001384370-2
+;;By Hugo Piper 001384370-2 01/05/2005
 ;;By Jahid Emon 001360753-7
 
 ;;Maternal branch
@@ -305,7 +305,7 @@
 
 #| Requirement B-05 sort-by-first |#
 
-(define (sort-by-first-recursive lst)
+(define (sort-by-first lst)
   (if (or (null? lst) (null? (cdr lst))) ; Base case: empty or single-element list
       lst
       (let* ([pivot (car lst)] ; Choose pivot
@@ -314,9 +314,9 @@
                      (string<? (symbol->string (car (car x))) 
                                (symbol->string (car (car pivot)))))])
         (let-values ([(lesser greater) (partition pred rest)])
-          (append (sort-by-first-recursive lesser)
+          (append (sort-by-first lesser)
                   (list pivot)
-                  (sort-by-first-recursive greater))))))
+                  (sort-by-first greater))))))
 
 (define (partition pred lst)
   (if (null? lst)
@@ -329,7 +329,7 @@
 ;Examples usage:
 (newline)(newline)
 (displayln "Example of B-05 'sort-by-first':")
-(sort-by-first-recursive Mb)
+(sort-by-first Mb)
 
 
 
